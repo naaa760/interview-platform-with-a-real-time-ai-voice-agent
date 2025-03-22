@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import bgImage from "@/public/bg.png";
 
 export default function LandingPage() {
@@ -60,55 +59,71 @@ export default function LandingPage() {
       </div>
 
       {/* Navigation */}
-      <nav className="relative z-10 px-6 py-4 flex justify-between items-center">
+      <nav className="relative z-10 px-6 py-4 flex justify-between items-center backdrop-blur-[2px] bg-white/5 mx-4 mt-4 rounded-full border border-white/10">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
           className="flex items-center"
         >
-          <Image
-            src="/logo.png"
-            alt="Logo"
-            width={40}
-            height={40}
-            className="mr-2"
-          />
-          <span className="text-white text-2xl font-bold">Auralis</span>
+          {/* Add your logo or brand name here if needed */}
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="hidden md:flex space-x-8"
+          className="hidden md:flex items-center space-x-8"
         >
-          {[
-            "Services",
-            "Process",
-            "Industries",
-            "Pricing",
-            "Team",
-            "Contact",
-            "FAQ",
-          ].map((item) => (
+          {["Contact", "FAQ"].map((item) => (
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
-              className="text-gray-300 hover:text-white transition-colors"
+              className="text-white/80 hover:text-white transition-colors text-sm font-medium"
             >
               {item}
             </a>
           ))}
+
+          <div className="flex items-center space-x-4 ml-8">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-4 py-2 text-white/90 hover:text-white transition-colors text-sm font-medium"
+            >
+              Sign in
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-4 py-2 rounded-full text-sm font-medium bg-white/10 hover:bg-white/20 text-white transition-all"
+            >
+              Sign up
+            </motion.button>
+          </div>
         </motion.div>
 
+        {/* Mobile menu button */}
         <motion.button
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-gradient-to-r from-orange-600 to-red-600 text-white px-6 py-2 rounded-full hover:shadow-lg hover:scale-105 transition-all"
+          className="md:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
         >
-          Get template
+          <svg
+            className="w-6 h-6 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
         </motion.button>
       </nav>
 
@@ -120,64 +135,68 @@ export default function LandingPage() {
           transition={{ duration: 0.8 }}
           className="text-center"
         >
-          <h1 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-100 via-white to-orange-100 mb-6">
-            We elevate your business using Artificial Intelligence.
+          {/* News Banner */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="inline-flex items-center gap-2 bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full mb-12"
+          >
+            <span className="text-xs font-medium bg-black/30 text-white px-2 py-1 rounded-full">
+              NEWS
+            </span>
+            <span className="text-sm text-white/90">
+              New partnership with Qliro
+            </span>
+            <svg
+              className="w-4 h-4 text-white/70"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </motion.div>
+
+          <h1 className="fs-64 gradient-text font-title font-medium pb-2.5 md:text-[40px] sm:text-[32px]">
+            The Suite for the Entire
+            <br />
+            Compliance Lifecycle
           </h1>
-          <p className="text-gray-400 text-xl md:text-2xl max-w-3xl mx-auto mb-12">
-            We elevate and grow organizations using top-tier Artificial
-            Intelligence solutions.
+          <br />
+          <br />
+          <p className="font-['Brush_Script_MT'] text-white text-xl max-w-3xl mx-auto mb-12">
+            Simplifying business onboarding and ensuring secure, compliant
+            <br />
+            operations for seamless growth and trustworthy partnerships.
           </p>
 
-          <div className="flex flex-col md:flex-row gap-6 justify-center">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-orange-600 to-red-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-lg transition-all"
-            >
-              Our services
-            </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-[#1A1A1A] text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-lg transition-all"
+          >
+            Get started
+          </motion.button>
 
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-gray-800 text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-lg transition-all flex items-center justify-center gap-2"
-            >
-              Book a call
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </motion.button>
-          </div>
-        </motion.div>
-
-        {/* Trusted By Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-32 text-center"
-        >
-          <p className="text-gray-400 mb-8">You're in good company</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center opacity-70">
-            {/* Replace these with actual company logos */}
-            {Array(4)
-              .fill(null)
-              .map((_, i) => (
-                <div
-                  key={i}
-                  className="w-32 h-12 bg-gray-800 rounded-lg animate-pulse"
-                />
-              ))}
+          {/* Partner Logos */}
+          <div className="mt-24">
+            <p className="text-[#1A1A1A]/60 text-sm mb-8">
+              Trusted by industry leaders
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-6 gap-12 items-center justify-items-center opacity-60">
+              <img src="/qliro.svg" alt="Qliro" className="h-8" />
+              <img src="/clevercards.svg" alt="CleverCards" className="h-8" />
+              <img src="/mimo.svg" alt="Mimo" className="h-8" />
+              <img src="/cardlay.svg" alt="Cardlay" className="h-8" />
+              <img src="/tioex.svg" alt="Tioex" className="h-8" />
+              <img src="/booksalon.svg" alt="Booksalon" className="h-8" />
+            </div>
           </div>
         </motion.div>
       </main>

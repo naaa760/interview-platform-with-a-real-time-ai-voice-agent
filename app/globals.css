@@ -376,3 +376,29 @@
     transform: translateY(0);
   }
 }
+
+@layer utilities {
+  .gradient-text {
+    background: radial-gradient(
+      89.47% 51.04% at 44.27% 50%,
+      #e2e3e9 0%,
+      #d4d6de 52.73%,
+      #3d3f4c 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .fs-64 {
+    font-size: 64px;
+    line-height: 1.1;
+  }
+}
+
+@font-face {
+  font-family: "GeneralSans";
+  src: url("/fonts/GeneralSans-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
