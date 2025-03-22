@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import bgImage from "@/public/bg.png";
 import Link from "next/link";
+import Image from "next/image";
+import cardImage from "@/public/card.webp";
 
 export default function LandingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -194,23 +196,75 @@ export default function LandingPage() {
           >
             Get started
           </motion.button>
-
-          {/* Partner Logos */}
-          <div className="mt-24">
-            <p className="text-[#1A1A1A]/60 text-sm mb-8">
-              Trusted by industry leaders
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-6 gap-12 items-center justify-items-center opacity-60">
-              <img src="/qliro.svg" alt="Qliro" className="h-8" />
-              <img src="/clevercards.svg" alt="CleverCards" className="h-8" />
-              <img src="/mimo.svg" alt="Mimo" className="h-8" />
-              <img src="/cardlay.svg" alt="Cardlay" className="h-8" />
-              <img src="/tioex.svg" alt="Tioex" className="h-8" />
-              <img src="/booksalon.svg" alt="Booksalon" className="h-8" />
-            </div>
-          </div>
         </motion.div>
       </main>
+
+      {/* Card Section */}
+      <section className="relative z-10 px-6 py-32 max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="grid md:grid-cols-2 gap-12 items-center"
+        >
+          {/* Text Content */}
+          <div className="space-y-6">
+            <motion.h2
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-4xl md:text-5xl font-title font-semibold gradient-text"
+            >
+              Build your next project faster
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="text-white/80 text-lg leading-relaxed"
+            >
+              Create stunning interfaces with our pre-built components and
+              intuitive design system. Speed up your workflow and focus on what
+              matters most.
+            </motion.p>
+          </div>
+
+          {/* Card Image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative group"
+          >
+            {/* Enhanced glow effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-500/30 via-red-500/20 to-purple-500/30 rounded-2xl blur-2xl group-hover:blur-3xl transition-all duration-500 opacity-75 group-hover:opacity-100" />
+
+            {/* Card container with improved shadows */}
+            <div className="relative bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.3)] group-hover:shadow-[0_8px_48px_rgba(0,0,0,0.4)] transition-all duration-500">
+              <Image
+                src={cardImage}
+                alt="Feature Card"
+                width={800}
+                height={600}
+                className="w-full h-auto transform group-hover:scale-[1.02] transition-transform duration-500"
+                priority
+              />
+
+              {/* Enhanced gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-80 group-hover:opacity-70 transition-opacity duration-500" />
+
+              {/* Optional: Add subtle inner border glow */}
+              <div className="absolute inset-0 rounded-2xl border border-white/5 group-hover:border-white/10 transition-colors duration-500" />
+            </div>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* You can add more sections below */}
     </div>
   );
 }
