@@ -20,6 +20,8 @@ import drpImage from "@/public/drp.jpg";
 export default function LandingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrollY, setScrollY] = useState(0);
+  const [visible, setVisible] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -36,6 +38,18 @@ export default function LandingPage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleVisibility = () => {
+      setVisible(window.scrollY < 100);
+    };
+    window.addEventListener("scroll", handleVisibility);
+    return () => window.removeEventListener("scroll", handleVisibility);
+  }, []);
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -77,7 +91,18 @@ export default function LandingPage() {
         />
       </div>
 
-      <nav className="relative z-10 px-6 py-2 flex justify-between items-center backdrop-blur-[px] bg-white/5 mx-auto mt-4 rounded-full border border-white/10 max-w-[90%] md:max-w-[80%]">
+      {/* Navbar */}
+      <nav
+        className={`
+          fixed top-0 left-0 right-0 z-50 
+          flex justify-between items-center 
+          mx-auto mt-2 rounded-full border border-white/10 
+          max-w-[90%] md:max-w-[80%] px-4 py-1.5
+          transition-all duration-300 relative
+          ${visible ? "translate-y-0" : "-translate-y-full"}
+        `}
+      >
+        {/* Background Image with Overlay */}
         <div className="absolute inset-0 rounded-full overflow-hidden">
           <Image
             src={drImage}
@@ -86,75 +111,49 @@ export default function LandingPage() {
             className="object-cover opacity-20"
             priority
           />
-          <div className="absolute inset-0 bg-black/20 backdrop-blur-[px]" />
+          <div className="absolute inset-0 bg-black/20 backdrop-blur-[2px]" />
         </div>
 
-        {/* Logo and Brand */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center gap-3 relative z-10"
-        >
+        {/* Logo */}
+        <div className="flex items-center gap-2 relative z-10">
           <Image
             src={logoImage}
-            alt="Logo"
-            width={68}
-            height={68}
+            alt="Final Round"
+            width={30}
+            height={30}
             className="object-contain"
-            priority
           />
-        </motion.div>
+        </div>
 
-        {/* Navigation Links and Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="hidden md:flex items-center space-x-8"
-        >
-          {["Contact", "FAQ"].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="text-white/80 hover:text-white transition-colors text-sm font-medium"
-            >
-              {item}
-            </a>
-          ))}
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center gap-6 relative z-10">
+          <a
+            href="#"
+            className="text-sm text-white/80 hover:text-white transition-colors"
+          >
+            Contact
+          </a>
+          <a
+            href="#"
+            className="text-sm text-white/80 hover:text-white transition-colors"
+          >
+            FAQ
+          </a>
+          <button className="px-4 py-1.5 text-sm rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors">
+            Sign in
+          </button>
+          <button className="px-4 py-1.5 text-sm rounded-full bg-primary-200 text-dark-100 hover:bg-primary-200/80 transition-colors">
+            Sign up
+          </button>
+        </div>
 
-          <div className="flex items-center space-x-4 ml-8">
-            <Link href="/auth/signin">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-2 text-white font-medium text-sm tracking-wide hover:text-white/90 transition-colors relative group"
-              >
-                <span className="relative z-10">Sign in</span>
-                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity bg-white/10" />
-              </motion.button>
-            </Link>
-
-            <Link href="/auth/signup">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-2 rounded-full text-sm font-medium bg-white/10 hover:bg-white/20 text-white tracking-wide transition-all shadow-[0_0_10px_rgba(255,255,255,0.1)] hover:shadow-[0_0_15px_rgba(255,255,255,0.15)]"
-              >
-                Sign up
-              </motion.button>
-            </Link>
-          </div>
-        </motion.div>
-
-        <motion.button
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-          className="md:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
+        {/* Mobile Menu Button */}
+        <button
+          onClick={toggleMobileMenu}
+          className="md:hidden p-2 text-white hover:bg-white/10 rounded-full transition-colors relative z-10"
         >
           <svg
-            className="w-6 h-6 text-white"
+            className="w-6 h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -162,11 +161,47 @@ export default function LandingPage() {
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={2}
+              strokeWidth="2"
               d="M4 6h16M4 12h16M4 18h16"
             />
           </svg>
-        </motion.button>
+        </button>
+
+        {/* Mobile Menu */}
+        <div
+          className={`
+            md:hidden absolute top-full right-0 mt-2 w-48 py-2 
+            bg-dark-200 rounded-lg shadow-lg border border-white/10
+            transition-all duration-200 relative z-10
+            ${mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}
+          `}
+        >
+          <a
+            href="#"
+            className="block px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/5"
+          >
+            Contact
+          </a>
+          <a
+            href="#"
+            className="block px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/5"
+          >
+            FAQ
+          </a>
+          <hr className="my-2 border-white/10" />
+          <a
+            href="#"
+            className="block px-4 py-2 text-sm text-white/80 hover:text-white hover:bg-white/5"
+          >
+            Sign in
+          </a>
+          <a
+            href="#"
+            className="block px-4 py-2 text-sm text-primary-200 hover:bg-primary-200/10"
+          >
+            Sign up
+          </a>
+        </div>
       </nav>
 
       <main className="relative z-10 px-6 pt-20 pb-32 max-w-7xl mx-auto">
