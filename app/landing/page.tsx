@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import cardImage from "@/public/card.webp";
 import glImage from "@/public/gl.png";
+import seImage from "@/public/se.png";
 
 export default function LandingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -172,13 +173,45 @@ export default function LandingPage() {
             </svg>
           </motion.div>
 
-          {/* Main heading with image */}
+          {/* Main heading with images */}
           <div className="flex items-center justify-center gap-8 mb-8">
+            {/* Left side image with flip animation */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative w-[200px] hidden md:block"
+            >
+              <motion.div
+                animate={{
+                  rotateY: [0, 360, 720, 1080, 0],
+                  scale: [1, 1.1, 1.1, 1.1, 1],
+                }}
+                transition={{
+                  duration: 6,
+                  times: [0, 0.25, 0.5, 0.75, 1],
+                  repeat: Infinity,
+                  repeatDelay: 3,
+                }}
+              >
+                <Image
+                  src={seImage}
+                  alt="SE Interface"
+                  width={200}
+                  height={150}
+                  priority
+                />
+              </motion.div>
+            </motion.div>
+
+            {/* Main heading */}
             <h1 className="fs-64 gradient-text font-title font-semibold pb-2.5 md:text-[40px] sm:text-[32px] tracking-tight text-left">
               The Suite for the Entire
               <br />
               Compliance Lifecycle
             </h1>
+
+            {/* Right side image */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -190,7 +223,6 @@ export default function LandingPage() {
                 alt="GL Interface"
                 width={200}
                 height={150}
-                className="rounded-lg"
                 priority
               />
             </motion.div>
