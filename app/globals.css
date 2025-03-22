@@ -394,6 +394,11 @@
     font-size: 64px;
     line-height: 1.1;
   }
+
+  .font-cursive {
+    font-family: var(--font-cursive);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 }
 
 @font-face {

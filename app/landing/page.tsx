@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import bgImage from "@/public/bg.png";
+import Link from "next/link";
 
 export default function LandingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -86,21 +87,26 @@ export default function LandingPage() {
           ))}
 
           <div className="flex items-center space-x-4 ml-8">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-4 py-2 text-white/90 hover:text-white transition-colors text-sm font-medium"
-            >
-              Sign in
-            </motion.button>
+            <Link href="/sign-in">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-4 py-2 text-white/90 hover:text-white transition-colors text-sm font-medium relative group"
+              >
+                <span className="relative z-10">Sign in</span>
+                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity bg-white/10" />
+              </motion.button>
+            </Link>
 
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-4 py-2 rounded-full text-sm font-medium bg-white/10 hover:bg-white/20 text-white transition-all"
-            >
-              Sign up
-            </motion.button>
+            <Link href="/sign-up">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-4 py-2 rounded-full text-sm font-medium bg-white/10 hover:bg-white/20 text-white transition-all"
+              >
+                Sign up
+              </motion.button>
+            </Link>
           </div>
         </motion.div>
 
@@ -163,17 +169,22 @@ export default function LandingPage() {
             </svg>
           </motion.div>
 
-          <h1 className="fs-64 gradient-text font-title font-medium pb-2.5 md:text-[40px] sm:text-[32px]">
+          {/* Main heading */}
+          <h1 className="fs-64 gradient-text font-title font-semibold pb-2.5 md:text-[40px] sm:text-[32px] tracking-tight">
             The Suite for the Entire
             <br />
             Compliance Lifecycle
           </h1>
           <br />
           <br />
-          <p className="font-['Brush_Script_MT'] text-white text-xl max-w-3xl mx-auto mb-12">
-            Simplifying business onboarding and ensuring secure, compliant
-            <br />
-            operations for seamless growth and trustworthy partnerships.
+
+          {/* Subheading with improved styling */}
+          <p className="font-cursive text-white/90 text-3xl tracking-wide max-w-3xl mx-auto mb-12 leading-relaxed">
+            <span className="bg-gradient-to-r from-orange-100/90 to-white/90 bg-clip-text text-transparent">
+              Simplifying business onboarding and ensuring secure, compliant
+              <br />
+              operations for seamless growth and trustworthy partnerships.
+            </span>
           </p>
 
           <motion.button
