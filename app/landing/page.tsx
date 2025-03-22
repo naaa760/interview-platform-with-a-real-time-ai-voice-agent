@@ -11,6 +11,9 @@ import seImage from "@/public/se.png";
 import drImage from "@/public/dr.png";
 import logoImage from "@/public/logo.png";
 import blImage from "@/public/bl.png";
+import bg1Image from "@/public/bg1.png";
+import ne1Image from "@/public/ne1.webp";
+import neImage from "@/public/ne.webp";
 
 export default function LandingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -147,7 +150,6 @@ export default function LandingPage() {
           </div>
         </motion.div>
 
-        {/* Mobile menu button */}
         <motion.button
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -381,6 +383,346 @@ export default function LandingPage() {
             </div>
           </motion.div>
         </motion.div>
+      </section>
+
+      {/* Interview Section */}
+      <section className="relative z-10 px-6 py-32 max-w-7xl mx-auto">
+        <div className="card-border p-0.5 rounded-2xl w-full">
+          <div className="relative overflow-hidden rounded-2xl">
+            {/* Background Image with Overlay */}
+            <div className="absolute inset-0 z-0">
+              <Image
+                src={bg1Image}
+                alt="Background"
+                fill
+                className="object-cover opacity-10"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#171532]/90 to-[#08090D]/95" />
+            </div>
+
+            {/* Content Container */}
+            <div className="relative z-10 flex sm:flex-row flex-col gap-10 p-8">
+              {/* Left Side - Interviewer */}
+              <div className="flex-1 sm:border-r border-white/10">
+                <div className="flex-center flex-col gap-4">
+                  <h3 className="text-center text-primary-100">Interviewer</h3>
+                  <div className="z-10 flex items-center justify-center blue-gradient rounded-full size-[120px] relative">
+                    <div className="absolute inline-flex size-5/6 animate-ping rounded-full bg-primary-200 opacity-75" />
+                    <Image
+                      src="/interviewer.jpg"
+                      alt="Interviewer"
+                      width={100}
+                      height={100}
+                      className="rounded-full"
+                    />
+                  </div>
+                  <p className="text-lg text-center text-white">Max Mayer</p>
+                  <div className="flex items-center gap-2 bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                    <span className="text-xs font-medium bg-black/30 text-white px-2 py-1 rounded-full">
+                      Transcribing
+                    </span>
+                  </div>
+                </div>
+
+                {/* Questions */}
+                <div className="mt-8 space-y-4">
+                  <div className="bg-black/20 backdrop-blur-sm p-4 rounded-lg">
+                    <p className="text-white/80">
+                      Why do you want to work as a software engineer at our
+                      company?
+                    </p>
+                    <span className="text-xs text-white/60">00:02:58</span>
+                  </div>
+                  <div className="bg-black/20 backdrop-blur-sm p-4 rounded-lg">
+                    <p className="text-white/80">
+                      Can you describe your software development process?
+                    </p>
+                    <span className="text-xs text-white/60">00:03:11</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Side - Interview Response */}
+              <div className="flex-1">
+                <div className="flex flex-col gap-4">
+                  <div className="flex justify-between items-center">
+                    <h3 className="text-white">Interview Copilot™ & You</h3>
+                    <span className="text-xs bg-black/30 text-white px-3 py-1 rounded-full">
+                      AI Generating
+                    </span>
+                  </div>
+
+                  {/* Responses */}
+                  <div className="space-y-4 mt-4">
+                    <div className="bg-white/5 backdrop-blur-sm p-4 rounded-lg">
+                      <span className="text-xs text-white/60 block mb-2">
+                        00:02:58
+                      </span>
+                      <p className="text-white/90">
+                        I admire your innovative tech solutions and
+                        collaborative culture. My skills in software development
+                        and passion for creating efficient code align perfectly
+                        with your company&apos;s mission, and I&apos;m eager to
+                        contribute to your team&apos;s success.
+                      </p>
+                    </div>
+                    <div className="bg-white/5 backdrop-blur-sm p-4 rounded-lg">
+                      <span className="text-xs text-white/60 block mb-2">
+                        00:02:58
+                      </span>
+                      <p className="text-white/90">
+                        I gather requirements, design architecture, develop,
+                        test, iterate based on feedback, and ensure high-quality
+                        deliverables through reviews and testing, while also
+                        optimizing performance, maintaining documentation,
+                        collaborating with stakeholders.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AI Tools Section */}
+      <section className="relative z-10 px-6 py-32 max-w-7xl mx-auto">
+        {/* Section Header with Animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <span className="text-sm font-medium text-orange-500 mb-2 block">
+            AI TOOLS
+          </span>
+          <h2 className="text-4xl md:text-5xl font-title font-semibold gradient-text mb-6">
+            Why Final Round AI is Your Ultimate
+            <br />
+            Interview Prep Partner
+          </h2>
+          <p className="text-white/80 text-lg max-w-3xl mx-auto">
+            From your first step to a successful interview—our AI-powered tools
+            help you prepare with confidence, stand out from the competition,
+            and land your dream job.
+          </p>
+        </motion.div>
+
+        {/* Tools Grid with Staggered Animation */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            visible: {
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
+          }}
+          className="grid md:grid-cols-2 gap-8 mt-16"
+        >
+          {/* AI Resume Builder Card */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: -20 },
+              visible: { opacity: 1, x: 0 },
+            }}
+            className="group relative"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 via-purple-500/20 to-blue-500/20 rounded-2xl blur-xl transition-all duration-500 group-hover:blur-2xl opacity-75 group-hover:opacity-100" />
+            <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-8 transition-all duration-300 hover:border-white/20">
+              {/* Card Content */}
+              <div className="flex items-start justify-between mb-6">
+                <span className="text-orange-500 text-sm font-medium">
+                  AI Resume Builder
+                </span>
+                <div className="bg-orange-500/10 p-2 rounded-full">
+                  <svg
+                    className="w-5 h-5 text-orange-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="text-2xl font-semibold text-white mb-4">
+                Generate a hireable resume with ease in one-click.
+              </h3>
+              <p className="text-white/80 mb-8">
+                Our AI creates a unique, professional, and ATS-optimized resume
+                that helps you stand out with personalized suggestions tailored
+                to your career goals.
+              </p>
+              <Image
+                src={ne1Image}
+                alt="AI Resume Builder Interface"
+                className="rounded-lg shadow-2xl w-full object-cover mt-8"
+                priority
+              />
+              <button className="mt-8 flex items-center gap-2 text-orange-500 hover:text-orange-400 transition-colors">
+                <span>Launch Resume Builder</span>
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </button>
+            </div>
+          </motion.div>
+
+          {/* AI Mock Interview Card */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: 20 },
+              visible: { opacity: 1, x: 0 },
+            }}
+            className="group relative"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-orange-500/20 rounded-2xl blur-xl transition-all duration-500 group-hover:blur-2xl opacity-75 group-hover:opacity-100" />
+            <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-8 transition-all duration-300 hover:border-white/20">
+              {/* Card Content */}
+              <div className="flex items-start justify-between mb-6">
+                <span className="text-blue-400 text-sm font-medium">
+                  AI Mock Interview
+                </span>
+                <div className="bg-blue-500/10 p-2 rounded-full">
+                  <svg
+                    className="w-5 h-5 text-blue-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="text-2xl font-semibold text-white mb-4">
+                Prepare for Your Interview with AI-Powered Mock Sessions
+              </h3>
+              <p className="text-white/80 mb-8">
+                Practice with industry-specific questions that reflect the
+                latest trends while benefiting from real-time feedback to
+                improve your confidence and readiness.
+              </p>
+              <Image
+                src={neImage}
+                alt="AI Mock Interview Interface"
+                className="rounded-lg shadow-2xl w-full object-cover mt-8"
+                priority
+              />
+              <button className="mt-8 flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
+                <span>Launch Mock Interview</span>
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="relative z-10 px-6 py-32 max-w-7xl mx-auto">
+        <div className="bg-[#FFF8E7] rounded-3xl p-12">
+          <div className="grid md:grid-cols-2 gap-16">
+            {/* Left Content */}
+            <div className="space-y-6">
+              <span className="text-sm font-medium text-[#4B5563]">
+                BY THE NUMBERS
+              </span>
+              <h2 className="text-4xl md:text-[42px] font-title font-semibold text-[#111827]">
+                Proven Results with
+                <br />
+                Final Round AI
+              </h2>
+              <p className="text-[#4B5563] text-lg leading-relaxed">
+                Helping job seekers worldwide land offers faster, ace
+                interviews, and break language barriers with AI-powered support.
+              </p>
+
+              {/* Featured Image */}
+              <div className="mt-8 bg-[#E9967A] rounded-xl p-4">
+                <span className="text-white text-sm mb-4 block">Angelist</span>
+                <h3 className="text-white text-2xl font-semibold mb-2">
+                  THE STATE OF AI-POWERED JOB
+                  <br />
+                  SEARCH: 2024
+                </h3>
+              </div>
+            </div>
+
+            {/* Right Stats */}
+            <div className="space-y-12">
+              <div className="border-b border-gray-300 pb-8">
+                <div className="flex justify-between items-baseline">
+                  <h3 className="text-6xl font-bold text-[#111827]">250K+</h3>
+                  <p className="text-[#4B5563]">Offers Received</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-12">
+                <div>
+                  <h3 className="text-6xl font-bold text-[#111827]">1.2M+</h3>
+                  <p className="text-[#4B5563] mt-2">Interviews Aced</p>
+                </div>
+                <div>
+                  <h3 className="text-6xl font-bold text-[#111827]">29+</h3>
+                  <p className="text-[#4B5563] mt-2">
+                    Languages and accents supported
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-12 pt-4">
+                <div>
+                  <h3 className="text-6xl font-bold text-[#111827]">95%</h3>
+                  <p className="text-[#4B5563] mt-2">User satisfaction rate</p>
+                </div>
+                <div>
+                  <h3 className="text-6xl font-bold text-[#111827]">10K+</h3>
+                  <p className="text-[#4B5563] mt-2">
+                    Companies where users got hired
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Add scroll detection */}
