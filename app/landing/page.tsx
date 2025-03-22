@@ -14,6 +14,7 @@ import blImage from "@/public/bl.png";
 import bg1Image from "@/public/bg1.png";
 import ne1Image from "@/public/ne1.webp";
 import neImage from "@/public/ne.webp";
+import bleImage from "@/public/ble.jpg";
 
 export default function LandingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -658,8 +659,15 @@ export default function LandingPage() {
 
       {/* Stats Section */}
       <section className="relative z-10 px-6 py-32 max-w-7xl mx-auto">
-        <div className="bg-[#FFF8E7] rounded-3xl p-12">
-          <div className="grid md:grid-cols-2 gap-16">
+        <div className="relative overflow-hidden rounded-3xl">
+          {/* Background Image with Overlay */}
+          <div className="absolute inset-0 z-0">
+            <Image src={bleImage} alt="Background Pattern" fill priority />
+            <div className="absolute inset-0 bg-gradient-to-b from-white" />
+          </div>
+
+          {/* Content */}
+          <div className="relative z-10 p-12 grid md:grid-cols-2 gap-16">
             {/* Left Content */}
             <div className="space-y-6">
               <span className="text-sm font-medium text-[#4B5563]">
