@@ -6,6 +6,7 @@ import bgImage from "@/public/bg.png";
 import Link from "next/link";
 import Image from "next/image";
 import cardImage from "@/public/card.webp";
+import glImage from "@/public/gl.png";
 
 export default function LandingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -22,7 +23,7 @@ export default function LandingPage() {
     <div className="min-h-screen relative overflow-hidden">
       {/* Background image layer */}
       <div
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 bg-[length:100%_120%] bg-center scale-110"
         style={{
           backgroundImage: `url(${bgImage.src})`,
         }}
@@ -171,14 +172,29 @@ export default function LandingPage() {
             </svg>
           </motion.div>
 
-          {/* Main heading */}
-          <h1 className="fs-64 gradient-text font-title font-semibold pb-2.5 md:text-[40px] sm:text-[32px] tracking-tight">
-            The Suite for the Entire
-            <br />
-            Compliance Lifecycle
-          </h1>
-          <br />
-          <br />
+          {/* Main heading with image */}
+          <div className="flex items-center justify-center gap-8 mb-8">
+            <h1 className="fs-64 gradient-text font-title font-semibold pb-2.5 md:text-[40px] sm:text-[32px] tracking-tight text-left">
+              The Suite for the Entire
+              <br />
+              Compliance Lifecycle
+            </h1>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative w-[200px] hidden md:block"
+            >
+              <Image
+                src={glImage}
+                alt="GL Interface"
+                width={200}
+                height={150}
+                className="rounded-lg"
+                priority
+              />
+            </motion.div>
+          </div>
 
           {/* Subheading with improved styling */}
           <p className="font-cursive text-white/90 text-3xl tracking-wide max-w-3xl mx-auto mb-12 leading-relaxed">
