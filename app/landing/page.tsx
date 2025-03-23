@@ -15,6 +15,7 @@ import ne1Image from "@/public/ne1.webp";
 import neImage from "@/public/ne.webp";
 import bleImage from "@/public/ble.jpg";
 import drpImage from "@/public/drp.jpg";
+import { Button } from "@/components/ui/button";
 
 export default function LandingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -303,13 +304,13 @@ export default function LandingPage() {
             </span>
           </p>
 
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-[#1A1A1A] text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-lg transition-all"
-          >
-            Get started
-          </motion.button>
+          <Link href="/sign-in">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button className="bg-[#1A1A1A] text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-lg transition-all">
+                Get started
+              </Button>
+            </motion.div>
+          </Link>
         </motion.div>
       </main>
 
@@ -853,9 +854,7 @@ export default function LandingPage() {
                 height={32}
                 className="object-contain"
               />
-              <span className="text-xl font-semibold text-white">
-                Final Round
-              </span>
+              <span className="text-xl font-semibold text-white">EchoHire</span>
             </div>
             <p className="text-white/60 mb-6">
               Your trusted platform to ace any job interview. Find the perfect
@@ -948,10 +947,6 @@ export default function LandingPage() {
               <a href="#" className="hover:text-white transition-colors">
                 Terms & Conditions
               </a>
-              <span>
-                © 2025 Final Round AI, 643 Teresita Blvd, San Francisco, CA
-                94127
-              </span>
             </div>
             <div className="flex items-center gap-4">
               <a
@@ -1007,15 +1002,6 @@ export default function LandingPage() {
         </div>
 
         {/* Disclaimer */}
-        <div className="mt-8 text-sm text-white/40">
-          <p>
-            This platform provides guidance, resources, and support to enhance
-            your job search. However, securing employment within 30 days depends
-            on various factors beyond our control, including market conditions,
-            individual effort, and employer decisions. We do not guarantee job
-            placement within any specific timeframe.
-          </p>
-        </div>
       </footer>
     </div>
   );
