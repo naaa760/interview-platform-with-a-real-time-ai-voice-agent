@@ -1,3 +1,5 @@
+## EchoHire ✨
+
 ## Overview
 
 ![image](https://github.com/user-attachments/assets/19c3bbe4-3d90-4e22-b0e8-70e4eece9e5b)
