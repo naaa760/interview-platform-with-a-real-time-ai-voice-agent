@@ -11,7 +11,6 @@ import seImage from "@/public/se.png";
 import drImage from "@/public/dr.png";
 import logoImage from "@/public/logo.png";
 import blImage from "@/public/bl.png";
-import bg1Image from "@/public/bg1.png";
 import ne1Image from "@/public/ne1.webp";
 import neImage from "@/public/ne.webp";
 import bleImage from "@/public/ble.jpg";
@@ -225,7 +224,7 @@ export default function LandingPage() {
               NEWS
             </span>
             <span className="text-sm text-[#cfff9f] drop-shadow-[0_0_10px_#39FF14]">
-              New partnership with Qliro
+              New partnership with EchoHire
             </span>
 
             <svg

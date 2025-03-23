@@ -17,7 +17,7 @@ const cursiveFont = Dancing_Script({
 });
 
 export const metadata: Metadata = {
-  title: "PrepWise",
+  title: "EchoHire",
   description: "An AI-powered platform for preparing for mock interviews",
 };
 
