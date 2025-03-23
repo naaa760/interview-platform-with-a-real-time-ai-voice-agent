@@ -98,26 +98,28 @@ const AuthForm = ({ type }: { type: FormType }) => {
   const isSignIn = type === "sign-in";
 
   return (
-    <div className="card-border lg:min-w-[566px]">
-      <div className="flex flex-col gap-6 card py-14 px-10">
-        <div className="flex flex-row gap-2 justify-center">
-          <Image src="/logo.svg" alt="logo" height={32} width={38} />
-          <h2 className="text-primary-100">PrepWise</h2>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="w-full max-w-md mx-4 p-8 bg-dark-200/80 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl">
+        <div className="mb-8 text-center">
+          <h2 className="text-3xl font-semibold text-white">
+            {type === "sign-in" ? "Welcome Back" : "Create Account"}
+          </h2>
+          <p className="mt-2 text-white/60">
+            {type === "sign-in"
+              ? "Sign in to continue to your account"
+              : "Sign up to get started with Final Round"}
+          </p>
         </div>
 
-        <h3>Practice job interviews with AI</h3>
-
+        {/* Form */}
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full space-y-6 mt-4 form"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             {!isSignIn && (
               <FormField
                 control={form.control}
                 name="name"
                 label="Name"
-                placeholder="Your Name"
+                placeholder="Enter your full name"
                 type="text"
               />
             )}
@@ -126,7 +128,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
               control={form.control}
               name="email"
               label="Email"
-              placeholder="Your email address"
+              placeholder="Enter your email address"
               type="email"
             />
 
@@ -134,25 +136,31 @@ const AuthForm = ({ type }: { type: FormType }) => {
               control={form.control}
               name="password"
               label="Password"
-              placeholder="Enter your password"
+              placeholder="Create a strong password"
               type="password"
             />
 
-            <Button className="btn" type="submit">
-              {isSignIn ? "Sign In" : "Create an Account"}
+            <Button
+              type="submit"
+              className="w-full py-2.5 mt-2 bg-primary-200 text-dark-100 hover:bg-primary-200/90 transition-colors"
+            >
+              {isSignIn ? "Sign In" : "Create Account"}
             </Button>
           </form>
         </Form>
 
-        <p className="text-center">
-          {isSignIn ? "No account yet?" : "Have an account already?"}
-          <Link
-            href={!isSignIn ? "/sign-in" : "/sign-up"}
-            className="font-bold text-user-primary ml-1"
-          >
-            {!isSignIn ? "Sign In" : "Sign Up"}
-          </Link>
-        </p>
+        {/* Footer */}
+        <div className="mt-6 text-center">
+          <p className="text-white/60">
+            {isSignIn ? "Don't have an account?" : "Already have an account?"}
+            <Link
+              href={isSignIn ? "/sign-up" : "/sign-in"}
+              className="ml-2 text-primary-200 hover:text-primary-100 transition-colors"
+            >
+              {isSignIn ? "Sign Up" : "Sign In"}
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
