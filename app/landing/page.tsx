@@ -628,21 +628,19 @@ export default function LandingPage() {
 
             {/* Nav Links */}
             <div className="hidden md:flex items-center space-x-8">
-              {["Pricing", "Who we serve", "Company", "Ribbon API"].map(
-                (item) => (
-                  <Link
-                    key={item}
-                    href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
-                    className={`font-medium transition-all duration-300 ${
-                      scrolled
-                        ? "text-gray-600 hover:text-pink-800"
-                        : "text-gray-800 hover:text-rose-400"
-                    }`}
-                  >
-                    {item}
-                  </Link>
-                )
-              )}
+              {["Pricing", "Who I serve", "Echo API"].map((item) => (
+                <Link
+                  key={item}
+                  href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
+                  className={`font-medium transition-all duration-300 ${
+                    scrolled
+                      ? "text-gray-600 hover:text-pink-800"
+                      : "text-gray-800 hover:text-rose-400"
+                  }`}
+                >
+                  {item}
+                </Link>
+              ))}
             </div>
 
             {/* CTA Buttons */}
