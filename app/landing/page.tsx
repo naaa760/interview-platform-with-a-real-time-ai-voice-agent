@@ -1,1008 +1,473 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import bgImage from "@/public/bg.png";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import cardImage from "@/public/card.webp";
-import glImage from "@/public/gl.png";
-import seImage from "@/public/se.png";
-import drImage from "@/public/dr.png";
-import logoImage from "@/public/logo.png";
-import blImage from "@/public/bl.png";
-import ne1Image from "@/public/ne1.webp";
-import neImage from "@/public/ne.webp";
-import bleImage from "@/public/ble.jpg";
-import drpImage from "@/public/drp.jpg";
-import { Button } from "@/components/ui/button";
 
 export default function LandingPage() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [scrollY, setScrollY] = useState(0);
-  const [visible, setVisible] = useState(true);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      const isScrolled = window.scrollY > 20;
+      setScrolled(isScrolled);
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    const handleVisibility = () => {
-      setVisible(window.scrollY < 100);
-    };
-    window.addEventListener("scroll", handleVisibility);
-    return () => window.removeEventListener("scroll", handleVisibility);
-  }, []);
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
-
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      <div
-        className="absolute inset-0 bg-[length:100%_120%] bg-center scale-100"
-        style={{
-          backgroundImage: `url(${bgImage.src})`,
-        }}
-      />
-
-      <div className="absolute inset-0 bg-gradient-to-br  via-[#2d1810]/80 to-[#1a0f07]/80" />
-
-      <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          backgroundImage:
-            "url(https://framerusercontent.com/images/6mcf62RlDfRfU61Yg5vb2pefpi4.png)",
-          backgroundSize: "128px auto",
-          backgroundRepeat: "repeat",
-          backgroundPosition: "left top",
-        }}
-      />
-
-      {/* Animated glow effects */}
-      <div className="absolute inset-0">
-        <div
-          className="absolute rounded-full w-[800px] h-[800px] blur-[120px] opacity-20"
-          style={{
-            background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(255,140,70,0.3), transparent 50%)`,
-          }}
-        />
-        <div
-          className="absolute rounded-full w-[600px] h-[600px] blur-[120px] opacity-20"
-          style={{
-            background: `radial-gradient(circle at ${mousePosition.x + 200}px ${
-              mousePosition.y - 200
-            }px, rgba(255,100,50,0.3), transparent 50%)`,
-          }}
-        />
+    <main className="min-h-screen relative bg-white overflow-hidden">
+      <style jsx>{`
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+        @keyframes float-delayed {
+          0%,
+          100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-15px);
+          }
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+          animation: float-delayed 8s ease-in-out infinite 2s;
+        }
+      `}</style>
+      {/* Grid Background Pattern */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0fff4_1px,transparent_1px),linear-gradient(to_bottom,#f0fff4_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
       </div>
 
-      {/* Navbar */}
-      <nav
-        className={`
-          fixed top-0 left-0 right-0 z-50 
-          flex justify-between items-center 
-          mx-auto mt-2 rounded-full border border-white/10 
-          max-w-[90%] md:max-w-[80%] px-3 py-1
-          transition-all duration-300 relative
-          ${visible ? "translate-y-0" : "-translate-y-full"}
-        `}
-      >
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 rounded-full overflow-hidden">
-          <Image
-            src={drImage}
-            alt="Background"
-            fill
-            className="object-cover opacity-20"
-            priority
-          />
-          <div className="absolute inset-0 bg-black/20 backdrop-blur-[2px]" />
-        </div>
-
-        {/* Logo */}
-        <div className="flex items-center gap-2 relative z-10">
-          <Image
-            src={logoImage}
-            alt="Final Round"
-            width={28}
-            height={28}
-            className="object-contain"
-          />
-        </div>
-
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-6 relative z-10">
-          <a
-            href="#"
-            className="text-sm text-white/80 hover:text-white transition-colors"
-          >
-            Contact
-          </a>
-          <a
-            href="#"
-            className="text-sm text-white/80 hover:text-white transition-colors"
-          >
-            FAQ
-          </a>
-          <Link href="/sign-in">
-            <button className="px-4 py-1.5 text-sm rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors">
-              Sign in
-            </button>
-          </Link>
-          <Link href="/sign-up">
-            <button className="px-4 py-1.5 text-sm rounded-full bg-primary-200 text-dark-100 hover:bg-primary-200/80 transition-colors">
-              Sign up
-            </button>
-          </Link>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          onClick={toggleMobileMenu}
-          className="md:hidden p-1.5 text-white hover:bg-white/10 rounded-full transition-colors relative z-10"
-        >
+      {/* Beautiful Organic SVG Shapes with Light Lime Green Gradients */}
+      <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden">
+        {/* SVG Shape 1 - Top Left Background */}
+        <div className="absolute -top-10 -left-10 w-40 h-40 opacity-30">
           <svg
-            className="w-5 h-5"
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full"
+          >
+            <defs>
+              <linearGradient
+                id="gradient1"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+              >
+                <stop offset="0%" stopColor="#9f1239" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#fda4af" stopOpacity="0.2" />
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#gradient1)"
+              d="M10.2,-21.8C17.5,-11.3,30.4,-15.5,42.4,-12.5C54.5,-9.5,65.5,0.7,68.1,12.5C70.6,24.3,64.7,37.6,54.5,44.5C44.3,51.4,29.8,51.8,19.9,43.7C10,35.6,4.7,18.9,-8.3,19.2C-21.2,19.6,-41.8,36.8,-50.7,37.7C-59.5,38.6,-56.7,23.2,-48.1,13.4C-39.4,3.6,-25,-0.6,-22.9,-12.7C-20.8,-24.7,-31.2,-44.7,-29.5,-57.7C-27.7,-70.7,-13.9,-76.8,-6.2,-67.2C1.5,-57.6,3,-32.3,10.2,-21.8Z"
+              transform="translate(100 100)"
+            />
+          </svg>
+        </div>
+
+        {/* SVG Shape 2 */}
+        <div className="absolute -top-5 -right-15 w-48 h-48 opacity-25">
+          <svg
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full"
+          >
+            <defs>
+              <radialGradient id="gradient2" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#9f1239" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#fda4af" stopOpacity="0.1" />
+              </radialGradient>
+            </defs>
+            <path
+              fill="url(#gradient2)"
+              d="M31.4,-53C41.2,-42.6,49.9,-34.7,51.1,-25.3C52.4,-15.9,46.1,-5.1,41.8,4.1C37.5,13.3,35.2,20.9,30,24.8C24.8,28.7,16.7,28.9,7.2,37.9C-2.4,46.9,-13.3,64.6,-24.2,67.9C-35.1,71.3,-46,60.3,-44.9,47C-43.9,33.7,-30.9,18.1,-23.6,8.9C-16.3,-0.3,-14.8,-3.2,-16.8,-11.3C-18.7,-19.5,-24.2,-32.9,-22,-46.7C-19.8,-60.5,-9.9,-74.8,0.5,-75.5C10.8,-76.2,21.7,-63.4,31.4,-53Z"
+              transform="translate(100 100)"
+            />
+          </svg>
+        </div>
+
+        {/* SVG Shape 3 */}
+        <div className="absolute top-80 -left-20 w-32 h-32 opacity-20">
+          <svg
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full"
+          >
+            <defs>
+              <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#9f1239" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#fda4af" stopOpacity="0.3" />
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#gradient3)"
+              d="M11.3,-18C17.1,-11.3,25.9,-11.3,29,-8C32,-4.7,29.1,1.9,32.6,16.6C36.1,31.3,46,54.1,41.6,61.4C37.2,68.7,18.6,60.5,1.3,58.8C-16.1,57,-32.1,61.7,-33,53.2C-33.8,44.8,-19.4,23.2,-23,8.4C-26.6,-6.5,-48.1,-14.5,-52.6,-22.1C-57.1,-29.7,-44.5,-36.8,-32.9,-41.6C-21.3,-46.5,-10.6,-49,-4,-43.6C2.7,-38.1,5.4,-24.7,11.3,-18Z"
+              transform="translate(100 100)"
+            />
+          </svg>
+        </div>
+
+        {/* SVG Shape 4 */}
+        <div className="absolute bottom-10 -right-20 w-44 h-44 opacity-15">
+          <svg
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full"
+          >
+            <defs>
+              <linearGradient
+                id="gradient4"
+                x1="0%"
+                y1="100%"
+                x2="100%"
+                y2="0%"
+              >
+                <stop offset="0%" stopColor="#9f1239" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#fda4af" stopOpacity="0.2" />
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#gradient4)"
+              d="M25.8,-45.9C29.4,-42.7,25.5,-27.6,34.9,-17.9C44.2,-8.3,66.9,-4.2,66.2,-0.4C65.5,3.4,41.5,6.7,33.2,18.3C25,29.8,32.5,49.5,29.6,57.1C26.7,64.7,13.3,60.2,4.2,53C-5,45.8,-10,35.9,-18.1,31.3C-26.1,26.7,-37.2,27.2,-40.3,22.9C-43.5,18.6,-38.8,9.3,-43.6,-2.8C-48.4,-14.8,-62.7,-29.6,-62.5,-39.1C-62.2,-48.5,-47.5,-52.6,-34.7,-50.5C-21.8,-48.3,-10.9,-39.9,0.1,-40.1C11.1,-40.3,22.2,-49,25.8,-45.9Z"
+              transform="translate(100 100)"
+            />
+          </svg>
+        </div>
+
+        {/* SVG Shape 5 */}
+        <div className="absolute bottom-0 left-1/4 w-36 h-36 opacity-18">
+          <svg
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full"
+          >
+            <defs>
+              <radialGradient id="gradient5" cx="30%" cy="30%" r="70%">
+                <stop offset="0%" stopColor="#9f1239" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#fda4af" stopOpacity="0.1" />
+              </radialGradient>
+            </defs>
+            <path
+              fill="url(#gradient5)"
+              d="M17.3,-38.9C18,-29.6,11,-16,11.8,-8.8C12.6,-1.5,21.3,-0.8,33,6.8C44.7,14.3,59.5,28.6,57.2,33.2C54.9,37.8,35.4,32.7,23,31.1C10.6,29.4,5.3,31.2,-0.7,32.5C-6.7,33.7,-13.5,34.4,-19,32.1C-24.6,29.8,-28.9,24.5,-39.9,18.6C-50.9,12.8,-68.6,6.4,-69.5,-0.6C-70.5,-7.5,-54.8,-15,-45.6,-24.1C-36.5,-33.2,-34,-43.9,-27.5,-49.7C-21,-55.6,-10.5,-56.7,-1.1,-54.8C8.3,-52.9,16.7,-48.1,17.3,-38.9Z"
+              transform="translate(100 100)"
+            />
+          </svg>
+        </div>
+
+        {/* New Floating SVGs */}
+        <div className="absolute top-40 left-1/2 transform -translate-x-1/2 w-24 h-24 opacity-20 animate-float">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient
+                id="floatingGradient1"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+              >
+                <stop offset="0%" stopColor="#9f1239" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#fda4af" stopOpacity="0.2" />
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#floatingGradient1)"
+              d="M40.8,-70.7C54.7,-62.9,69,-54.3,76.4,-41.6C83.8,-28.9,84.2,-12.1,81.5,3.6C78.8,19.2,73,33.7,64.1,45.7C55.2,57.7,43.3,67.2,29.7,71.9C16.1,76.6,0.8,76.5,-14.9,74.6C-30.6,72.8,-46.7,69.2,-57.7,59.3C-68.7,49.4,-74.6,33.2,-79.2,16.1C-83.8,-1,-87,-19,-81.8,-33.5C-76.6,-48,-63,-59,-48,-67.8C-33,-76.6,-16.5,-83.2,-0.2,-82.9C16.1,-82.6,32.2,-75.4,40.8,-70.7Z"
+              transform="translate(100 100)"
+            />
+          </svg>
+        </div>
+
+        <div className="absolute bottom-20 left-20 w-32 h-32 opacity-15 animate-float-delayed">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient
+                id="floatingGradient2"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+              >
+                <stop offset="0%" stopColor="#9f1239" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#fda4af" stopOpacity="0.2" />
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#floatingGradient2)"
+              d="M44.5,-76.3C59.1,-69.9,73.3,-60.1,81.8,-46.2C90.3,-32.3,93,-14.3,89.8,2.3C86.5,19,77.3,34.3,66.7,47.3C56.1,60.3,44.1,71,30.1,76.5C16.1,82,-0,82.3,-15.4,77.9C-30.8,73.5,-45.5,64.4,-57.8,52.6C-70.1,40.8,-80,26.3,-84.1,9.7C-88.2,-6.9,-86.5,-25.5,-78.3,-40.2C-70.1,-54.9,-55.4,-65.6,-40.4,-71.8C-25.4,-78,-12.7,-79.6,1.9,-82.8C16.5,-86,33,-82.8,44.5,-76.3Z"
+              transform="translate(100 100)"
+            />
+          </svg>
+        </div>
+
+        {/* New SVG Shape 1 - Top Right */}
+        <div className="absolute top-32 right-16 w-32 h-32 opacity-25">
+          <svg
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full"
+          >
+            <defs>
+              <linearGradient
+                id="newGradient1"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+              >
+                <stop offset="0%" stopColor="#9f1239" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#fda4af" stopOpacity="0.2" />
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#newGradient1)"
+              d="M23.2,-40.7C27.5,-28.9,26.4,-18.6,28,-10C29.5,-1.4,33.6,5.4,30.2,8C26.9,10.6,16.1,8.9,9.8,15.9C3.5,22.9,1.8,38.4,-5.3,45.7C-12.3,53,-24.7,52,-28.2,44.1C-31.8,36.3,-26.5,21.6,-27.7,10.7C-28.8,-0.2,-36.4,-7.2,-38.2,-15.7C-39.9,-24.1,-35.8,-33.8,-28.5,-44.7C-21.1,-55.5,-10.6,-67.5,-0.5,-66.7C9.5,-66,19,-52.6,23.2,-40.7Z"
+              transform="translate(100 100)"
+            />
+          </svg>
+        </div>
+
+        {/* New SVG Shape 2 - Middle Left */}
+        <div className="absolute top-1/2 -left-8 w-36 h-36 opacity-20">
+          <svg
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full"
+          >
+            <defs>
+              <radialGradient id="newGradient2" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#9f1239" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#fda4af" stopOpacity="0.1" />
+              </radialGradient>
+            </defs>
+            <path
+              fill="url(#newGradient2)"
+              d="M11.4,-2.1C20.9,-1.9,38.9,-0.9,39.8,0.9C40.7,2.8,24.5,5.5,15,9.4C5.5,13.2,2.8,18.1,-6.8,24.9C-16.4,31.8,-32.8,40.5,-47.4,36.7C-61.9,32.8,-74.5,16.4,-71.1,3.4C-67.7,-9.5,-48.2,-19.1,-33.6,-19.3C-19.1,-19.4,-9.5,-10.2,-4.3,-5.9C0.9,-1.6,1.9,-2.2,11.4,-2.1Z"
+              transform="translate(100 100)"
+            />
+          </svg>
+        </div>
+
+        {/* New SVG Shape 3 - Bottom Right */}
+        <div className="absolute bottom-40 right-8 w-28 h-28 opacity-22 animate-float">
+          <svg
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full"
+          >
+            <defs>
+              <linearGradient
+                id="newGradient3"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+              >
+                <stop offset="0%" stopColor="#9f1239" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#fda4af" stopOpacity="0.2" />
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#newGradient3)"
+              d="M35,-27.9C51.4,-18.6,74.8,-9.3,77.8,3C80.7,15.2,63.2,30.4,46.8,33.8C30.4,37.2,15.2,28.7,1.1,27.6C-13,26.6,-26.1,32.8,-39.8,29.5C-53.6,26.1,-68,13,-62.6,5.4C-57.2,-2.2,-32,-4.5,-18.2,-13.8C-4.5,-23,-2.2,-39.4,3.5,-42.9C9.3,-46.5,18.6,-37.2,35,-27.9Z"
+              transform="translate(100 100)"
+            />
+          </svg>
+        </div>
+
+        {/* New SVG Shape 4 - Top Left Center */}
+        <div className="absolute top-48 left-16 w-30 h-30 opacity-18 animate-float-delayed">
+          <svg
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full"
+          >
+            <defs>
+              <linearGradient
+                id="newGradient4"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+              >
+                <stop offset="0%" stopColor="#9f1239" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#fda4af" stopOpacity="0.2" />
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#newGradient4)"
+              d="M17.3,-38C21.4,-27.5,23,-20.9,33.8,-15.2C44.6,-9.5,64.5,-4.8,61.7,-1.6C58.9,1.5,33.3,3,23.8,10.8C14.2,18.6,20.7,32.8,19.4,36.8C18.1,40.7,9,34.5,4,27.6C-1.1,20.7,-2.2,13.2,-14,15.3C-25.8,17.4,-48.4,29.2,-55,28.2C-61.6,27.3,-52.2,13.6,-43.4,5.1C-34.5,-3.5,-26.2,-6.9,-26.2,-19.1C-26.1,-31.4,-34.2,-52.4,-31.2,-63.5C-28.3,-74.6,-14.1,-75.8,-3.8,-69.2C6.6,-62.7,13.1,-48.4,17.3,-38Z"
+              transform="translate(100 100)"
+            />
+          </svg>
+        </div>
+      </div>
+
+      {/* Enhanced Sticky Navigation Bar with Scroll Effect */}
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "py-2 bg-white/80 backdrop-blur-lg shadow-lg"
+            : "py-4 bg-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4">
+          <div
+            className={`flex items-center justify-between transition-all duration-300 ${
+              scrolled ? "py-2" : "py-3"
+            }`}
+          >
+            {/* Logo */}
+            <Link href="/" className="flex items-center">
+              <div
+                className={`transition-all duration-300 ${
+                  scrolled
+                    ? "w-8 h-8 bg-gradient-to-tr from-pink-800 to-rose-400"
+                    : "w-10 h-10 bg-gradient-to-tr from-gray-900 to-gray-700"
+                } rounded-xl shadow-lg`}
+              ></div>
+              <span className="ml-2 text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                Ribbon
+              </span>
+            </Link>
+
+            {/* Nav Links */}
+            <div className="hidden md:flex items-center space-x-8">
+              {["Pricing", "Who we serve", "Company", "Ribbon API"].map(
+                (item) => (
+                  <Link
+                    key={item}
+                    href={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
+                    className={`font-medium transition-all duration-300 ${
+                      scrolled
+                        ? "text-gray-600 hover:text-pink-800"
+                        : "text-gray-800 hover:text-rose-400"
+                    }`}
+                  >
+                    {item}
+                  </Link>
+                )
+              )}
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex items-center space-x-4">
+              <Link
+                href="/signup"
+                className={`px-4 py-2 font-medium transition-all duration-300 ${
+                  scrolled
+                    ? "text-gray-600 hover:text-pink-800"
+                    : "text-gray-800 hover:text-pink-800"
+                }`}
+              >
+                Sign up
+              </Link>
+              <Link
+                href="/demo"
+                className={`px-5 py-2.5 font-medium text-white rounded-full transition-all duration-300 ${
+                  scrolled
+                    ? "bg-gradient-to-r from-pink-800 to-rose-400 hover:from-pink-800 hover:to-rose-400"
+                    : "bg-gradient-to-r from-gray-900 to-gray-800 hover:from-pink-800 hover:to-rose-400"
+                } shadow-md hover:shadow-lime-200/30`}
+              >
+                Book a demo
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <br />
+      <br />
+      <br />
+      <br />
+
+      {/* Hero Section */}
+      <section className="relative z-10 max-w-6xl mx-auto px-4 pt-16 pb-20 text-center">
+        {/* Announcement Banner */}
+        <div className="inline-flex items-center bg-white/80 backdrop-blur-sm rounded-full px-6 py-2 mb-8 shadow-sm border border-gray-100/50">
+          <div className="w-6 h-6 bg-gradient-to-tr from-pink-800 to-rose-400 rounded-lg shadow-sm"></div>
+          <span className="mx-2 text-gray-700">
+            We raised $8M+ to fix hiring!
+          </span>
+          <svg
+            className="w-4 h-4 text-gray-600"
             fill="none"
-            stroke="currentColor"
             viewBox="0 0 24 24"
+            stroke="currentColor"
           >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16M4 18h16"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
             />
           </svg>
-        </button>
-
-        {/* Mobile Menu */}
-        <div
-          className={`
-            md:hidden absolute top-full right-0 mt-1 w-26
-            bg-dark-200/95 backdrop-blur-sm rounded-lg shadow-lg border border-white/10
-            transition-all duration-200 relative z-10
-            ${mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}
-          `}
-        >
-          <Link
-            href="#"
-            className="block px-3 py-1 text-xs text-white/80 hover:text-white hover:bg-white/5"
-          >
-            Contact
-          </Link>
-          <Link
-            href="#"
-            className="block px-3 py-1 text-xs text-white/80 hover:text-white hover:bg-white/5"
-          >
-            FAQ
-          </Link>
-          <hr className="my-1 border-white/10" />
-          <Link
-            href="/sign-in"
-            className="block px-3 py-1 text-xs text-white/80 hover:text-white hover:bg-white/5"
-          >
-            Sign in
-          </Link>
-          <Link
-            href="/sign-up"
-            className="block px-3 py-1 text-xs text-primary-200 hover:bg-primary-200/10"
-          >
-            Sign up
-          </Link>
         </div>
-      </nav>
 
-      <main className="relative z-10 px-6 pt-20 pb-32 max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center"
-        >
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-flex items-center gap-2 bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full mb-12"
-          >
-            <span className="text-xs font-medium bg-black/30 text-[#b9ff57] px-2 py-1 rounded-full drop-shadow-[0_0_10px_#39FF14]">
-              NEWS
-            </span>
-            <span className="text-sm text-[#cfff9f] drop-shadow-[0_0_10px_#39FF14]">
-              New partnership with EchoHire
-            </span>
-
-            <svg
-              className="w-4 h-4 text-white/70"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </motion.div>
-
-          <div className="flex items-center justify-center gap-8 mb-8">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative w-[200px] hidden md:block"
-            >
-              <motion.div
-                animate={{
-                  rotateY: [0, 360, 720, 1080, 0],
-                  scale: [1, 1.1, 1.1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 6,
-                  times: [0, 0.25, 0.5, 0.75, 1],
-                  repeat: Infinity,
-                  repeatDelay: 3,
-                }}
-              >
-                <Image
-                  src={seImage}
-                  alt="SE Interface"
-                  width={200}
-                  height={150}
-                  priority
-                />
-              </motion.div>
-            </motion.div>
-
-            <h1 className="fs-64 gradient-text font-title font-semibold pb-2.5 md:text-[40px] sm:text-[32px] tracking-tight text-left">
-              AI isn&apos;t replacing humans
-              <br />
-              it&apos;s amplifying our potential.
-            </h1>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative w-[200px] hidden md:block"
-            >
-              <Image
-                src={glImage}
-                alt="GL Interface"
-                width={200}
-                height={150}
-                priority
-              />
-            </motion.div>
-          </div>
-
-          <p className="font-cursive text-white/90 text-3xl tracking-wide max-w-3xl mx-auto mb-12 leading-relaxed">
-            <span className="bg-gradient-to-r from-orange-100/90 to-white/90 bg-clip-text text-transparent">
-              AI is not just about automation; it&apos;s about augmentation—
-              enhancing human potential, creativity, and productivity.
-              <br />
-              The future isn&apos;t man versus machine; it&apos;s man with
-              machine.
-            </span>
-          </p>
-
-          <Link href="/sign-in">
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button className="bg-[#1A1A1A] text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-lg transition-all">
-                Get started
-              </Button>
-            </motion.div>
-          </Link>
-        </motion.div>
-      </main>
-
-      <section className="relative z-10 px-6 py-32 max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="grid md:grid-cols-2 gap-12 items-center"
-        >
-          <div className="space-y-6">
-            <motion.h2
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-4xl md:text-5xl font-title font-semibold gradient-text"
-            >
-              Build your next project faster
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-white/80 text-lg leading-relaxed"
-            >
-              Create stunning interfaces with our pre-built components and
-              intuitive design system. Speed up your workflow and focus on what
-              matters most.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="relative w-[380px] mt-8"
-            >
-              <motion.div
-                animate={{
-                  rotateY: [0, 360, 720, 1080, 0],
-                  scale: [1, 1.1, 1.1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 6,
-                  times: [0, 0.25, 0.5, 0.75, 1],
-                  repeat: Infinity,
-                  repeatDelay: 3,
-                }}
-                style={{
-                  perspective: "1000px",
-                  transformStyle: "preserve-3d",
-                }}
-              >
-                <Image
-                  src={blImage}
-                  alt="BL Interface"
-                  width={1200}
-                  height={900}
-                  className="object-contain"
-                  priority
-                />
-              </motion.div>
-            </motion.div>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative group"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-orange-500/30 via-red-500/20 to-purple-500/30 rounded-2xl blur-2xl group-hover:blur-3xl transition-all duration-500 opacity-75 group-hover:opacity-100" />
-
-            <div className="relative bg-black/20 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.3)] group-hover:shadow-[0_8px_48px_rgba(0,0,0,0.4)] transition-all duration-500">
-              <Image
-                src={cardImage}
-                alt="Feature Card"
-                width={800}
-                height={600}
-                className="w-full h-auto transform group-hover:scale-[1.02] transition-transform duration-500"
-                priority
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-80 group-hover:opacity-70 transition-opacity duration-500" />
-
-              <div className="absolute inset-0 rounded-2xl border border-white/5 group-hover:border-white/10 transition-colors duration-500" />
-            </div>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      <section className="relative z-10 px-6 py-32 max-w-7xl mx-auto">
-        <div className="card-border p-0.5 rounded-2xl w-full">
-          <div className="relative overflow-hidden rounded-2xl">
-            <div className="absolute inset-0 z-0">
-              <Image src={drpImage} alt="Background Pattern" fill priority />
-              <div className="absolute inset-0 bg-gradient-to-b  to-[#08090D]/98" />
-            </div>
-
-            <div className="relative z-10 flex sm:flex-row flex-col gap-10 p-8">
-              <div className="flex-1 sm:border-r border-white/10">
-                <div className="flex-center flex-col gap-4">
-                  <h3 className="text-center text-primary-100">Interviewer</h3>
-                  <div className="z-10 flex items-center justify-center blue-gradient rounded-full size-[120px] relative">
-                    <div className="absolute inline-flex size-5/6 animate-ping rounded-full bg-primary-200 opacity-75" />
-                    <Image
-                      src="/interviewer.jpg"
-                      alt="Interviewer"
-                      width={100}
-                      height={100}
-                      className="rounded-full"
-                    />
-                  </div>
-                  <p className="text-lg text-center text-white">Max Mayer</p>
-                  <div className="flex items-center gap-2 bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full">
-                    <span className="text-xs font-medium bg-black/30 text-white px-2 py-1 rounded-full">
-                      Transcribing
-                    </span>
-                  </div>
-                </div>
-
-                <div className="mt-8 space-y-4">
-                  <div className="bg-black/20 backdrop-blur-sm p-4 rounded-lg">
-                    <p className="text-white/80">
-                      Why do you want to work as a software engineer at our
-                      company?
-                    </p>
-                    <span className="text-xs text-white/60">00:02:58</span>
-                  </div>
-                  <div className="bg-black/20 backdrop-blur-sm p-4 rounded-lg">
-                    <p className="text-white/80">
-                      Can you describe your software development process?
-                    </p>
-                    <span className="text-xs text-white/60">00:03:11</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex-1">
-                <div className="flex flex-col gap-4">
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-white">Interview Copilot™ & You</h3>
-                    <span className="text-xs bg-black/30 text-white px-3 py-1 rounded-full">
-                      AI Generating
-                    </span>
-                  </div>
-
-                  {/* Responses */}
-                  <div className="space-y-4 mt-4">
-                    <div className="bg-white/5 backdrop-blur-sm p-4 rounded-lg">
-                      <span className="text-xs text-white/60 block mb-2">
-                        00:02:58
-                      </span>
-                      <p className="text-white/90">
-                        I admire your innovative tech solutions and
-                        collaborative culture. My skills in software development
-                        and passion for creating efficient code align perfectly
-                        with your company&apos;s mission, and I&apos;m eager to
-                        contribute to your team&apos;s success.
-                      </p>
-                    </div>
-                    <div className="bg-white/5 backdrop-blur-sm p-4 rounded-lg">
-                      <span className="text-xs text-white/60 block mb-2">
-                        00:02:58
-                      </span>
-                      <p className="text-white/90">
-                        I gather requirements, design architecture, develop,
-                        test, iterate based on feedback, and ensure high-quality
-                        deliverables through reviews and testing, while also
-                        optimizing performance, maintaining documentation,
-                        collaborating with stakeholders.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative z-10 px-6 py-32 max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <span className="text-sm font-medium text-orange-500 mb-2 block">
-            AI TOOLS
+        {/* Main Heading with Beautiful Black & Silver Gradient */}
+        <h1 className="text-6xl md:text-7xl font-black leading-tight mb-6 tracking-tight max-w-5xl mx-auto">
+          <span className="bg-gradient-to-b from-gray-900 via-gray-700 to-gray-500 bg-clip-text text-transparent drop-shadow-sm">
+            Discover{" "}
           </span>
-          <h2 className="text-4xl md:text-5xl font-title font-semibold gradient-text mb-6">
-            Why Final Round AI is Your Ultimate
-            <br />
-            Interview Prep Partner
-          </h2>
-          <p className="text-white/80 text-lg max-w-3xl mx-auto">
-            From your first step to a successful interview—our AI-powered tools
-            help you prepare with confidence, stand out from the competition,
-            and land your dream job.
-          </p>
-        </motion.div>
-
-        {/* Tools Grid with Staggered Animation */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={{
-            visible: {
-              transition: {
-                staggerChildren: 0.2,
-              },
-            },
-          }}
-          className="grid md:grid-cols-2 gap-8 mt-16"
-        >
-          <motion.div
-            variants={{
-              hidden: { opacity: 0, x: -20 },
-              visible: { opacity: 1, x: 0 },
-            }}
-            className="group relative"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 via-purple-500/20 to-blue-500/20 rounded-2xl blur-xl transition-all duration-500 group-hover:blur-2xl opacity-75 group-hover:opacity-100" />
-            <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-8 transition-all duration-300 hover:border-white/20">
-              {/* Card Content */}
-              <div className="flex items-start justify-between mb-6">
-                <span className="text-orange-500 text-sm font-medium">
-                  AI Resume Builder
-                </span>
-                <div className="bg-orange-500/10 p-2 rounded-full">
-                  <svg
-                    className="w-5 h-5 text-orange-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <h3 className="text-2xl font-semibold text-white mb-4">
-                Generate a hireable resume with ease in one-click.
-              </h3>
-              <p className="text-white/80 mb-8">
-                Our AI creates a unique, professional, and ATS-optimized resume
-                that helps you stand out with personalized suggestions tailored
-                to your career goals.
-              </p>
-              <Image
-                src={ne1Image}
-                alt="AI Resume Builder Interface"
-                className="rounded-lg shadow-2xl w-full object-cover mt-8"
-                priority
-              />
-              <button className="mt-8 flex items-center gap-2 text-orange-500 hover:text-orange-400 transition-colors">
-                <span>Launch Resume Builder</span>
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </button>
-            </div>
-          </motion.div>
-
-          <motion.div
-            variants={{
-              hidden: { opacity: 0, x: 20 },
-              visible: { opacity: 1, x: 0 },
-            }}
-            className="group relative"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-orange-500/20 rounded-2xl blur-xl transition-all duration-500 group-hover:blur-2xl opacity-75 group-hover:opacity-100" />
-            <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-8 transition-all duration-300 hover:border-white/20">
-              {/* Card Content */}
-              <div className="flex items-start justify-between mb-6">
-                <span className="text-blue-400 text-sm font-medium">
-                  AI Mock Interview
-                </span>
-                <div className="bg-blue-500/10 p-2 rounded-full">
-                  <svg
-                    className="w-5 h-5 text-blue-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <h3 className="text-2xl font-semibold text-white mb-4">
-                Prepare for Your Interview with AI-Powered Mock Sessions
-              </h3>
-              <p className="text-white/80 mb-8">
-                Practice with industry-specific questions that reflect the
-                latest trends while benefiting from real-time feedback to
-                improve your confidence and readiness.
-              </p>
-              <Image
-                src={neImage}
-                alt="AI Mock Interview Interface"
-                className="rounded-lg shadow-2xl w-full object-cover mt-8"
-                priority
-              />
-              <button className="mt-8 flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
-                <span>Launch Mock Interview</span>
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </button>
-            </div>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      <section className="relative z-10 px-6 py-32 max-w-7xl mx-auto">
-        <div className="relative overflow-hidden rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_40px_rgb(0,0,0,0.16)] transition-shadow duration-300">
-          <div className="absolute inset-0 z-0">
-            <Image src={bleImage} alt="Background Pattern" fill priority />
-            <div className="absolute inset-0 bg-gradient-to-b from-white/90" />
-          </div>
-
-          <div className="relative z-10 p-12 grid md:grid-cols-2 gap-16">
-            <div className="space-y-6">
-              <span className="text-sm font-medium text-[#4B5563]">
-                BY THE NUMBERS
-              </span>
-              <h2 className="text-4xl md:text-[42px] font-title font-semibold text-[#111827]">
-                Proven Results with
-                <br />
-                Final Round AI
-              </h2>
-              <p className="text-[#4B5563] text-lg leading-relaxed">
-                Helping job seekers worldwide land offers faster, ace
-                interviews, and break language barriers with AI-powered support.
-              </p>
-
-              <div className="mt-8 bg-[#E9967A] rounded-xl p-4 shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
-                <span className="text-white text-sm mb-4 block">Angelist</span>
-                <h3 className="text-white text-2xl font-semibold mb-2">
-                  THE STATE OF AI-POWERED JOB
-                  <br />
-                  SEARCH: 2024
-                </h3>
-              </div>
-            </div>
-
-            <div className="space-y-12">
-              <div className="border-b border-gray-300 pb-8 hover:border-gray-400 transition-colors duration-300">
-                <div className="flex justify-between items-baseline group">
-                  <h3 className="text-6xl font-bold text-[#111827] group-hover:scale-105 transition-transform duration-300">
-                    250K+
-                  </h3>
-                  <p className="text-[#4B5563] group-hover:text-[#111827] transition-colors duration-300">
-                    Offers Received
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-12">
-                <div className="group">
-                  <h3 className="text-6xl font-bold text-[#111827] group-hover:scale-105 transition-transform duration-300">
-                    1.2M+
-                  </h3>
-                  <p className="text-[#4B5563] mt-2 group-hover:text-[#111827] transition-colors duration-300">
-                    Interviews Aced
-                  </p>
-                </div>
-                <div className="group">
-                  <h3 className="text-6xl font-bold text-[#111827] group-hover:scale-105 transition-transform duration-300">
-                    29+
-                  </h3>
-                  <p className="text-[#4B5563] mt-2 group-hover:text-[#111827] transition-colors duration-300">
-                    Languages and accents supported
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-12 pt-4">
-                <div className="group">
-                  <h3 className="text-6xl font-bold text-[#111827] group-hover:scale-105 transition-transform duration-300">
-                    95%
-                  </h3>
-                  <p className="text-[#4B5563] mt-2 group-hover:text-[#111827] transition-colors duration-300">
-                    User satisfaction rate
-                  </p>
-                </div>
-                <div className="group">
-                  <h3 className="text-6xl font-bold text-[#111827] group-hover:scale-105 transition-transform duration-300">
-                    10K+
-                  </h3>
-                  <p className="text-[#4B5563] mt-2 group-hover:text-[#111827] transition-colors duration-300">
-                    Companies where users got hired
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative z-10 px-6 py-32 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="text-sm font-medium text-orange-500 mb-2 block">
-            INTEGRATIONS
+          <span className="bg-gradient-to-r from-pink-800 via-rose-400 to-pink-600 bg-clip-text text-transparent drop-shadow-sm">
+            top talent
+          </span>{" "}
+          <span className="bg-gradient-to-b from-black via-gray-800 to-gray-600 bg-clip-text text-transparent drop-shadow-sm">
+            faster with
+          </span>{" "}
+          <span className="bg-gradient-to-br from-gray-900 via-gray-700 to-gray-500 bg-clip-text text-transparent drop-shadow-sm">
+            AI interviews.
           </span>
-          <h2 className="text-4xl md:text-5xl font-title font-semibold gradient-text mb-6">
-            AI-Powered Interview Coaching
-            <br />
-            for Every Career Stage
-          </h2>
-          <p className="text-white/80 text-lg max-w-3xl mx-auto">
-            Unlock smarter interview preparation with seamless AI
-            integrations—personalized for your career path.
-          </p>
-        </div>
+        </h1>
 
-        <div className="flex flex-wrap gap-4 justify-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-wrap gap-4 justify-center"
-          >
-            <button className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all duration-300 hover:border-white/20">
-              IT & Tech
-            </button>
-            <button className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all duration-300 hover:border-white/20">
-              Sales & Customer Roles
-            </button>
-            <button className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all duration-300 hover:border-white/20">
-              Graduates
-            </button>
-            <button className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all duration-300 hover:border-white/20">
-              International Job Seekers
-            </button>
-          </motion.div>
+        {/* Subheading */}
+        <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+          Effortlessly screen every candidate and collect AI-powered notes for
+          every interview. Purpose-built for recruiters.
+        </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-wrap gap-4 justify-center mt-4"
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link
+            href="/signup"
+            className="px-8 py-4 text-gray-700 hover:text-pink-800 text-lg font-medium transition-all duration-300 hover:scale-105"
           >
-            <button className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all duration-300 hover:border-white/20">
-              Freelancers & Contractors
-            </button>
-            <button className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all duration-300 hover:border-white/20">
-              Engineers & Tech
-            </button>
-            <button className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all duration-300 hover:border-white/20">
-              Executives
-            </button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="flex flex-wrap gap-4 justify-center mt-4"
-          >
-            <button className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all duration-300 hover:border-white/20">
-              MBA & Grad Applicants
-            </button>
-            <button className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all duration-300 hover:border-white/20">
-              Career Changers
-            </button>
-            <button className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all duration-300 hover:border-white/20">
-              Sales & Customer Roles
-            </button>
-            <button className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all duration-300 hover:border-white/20">
-              International
-            </button>
-          </motion.div>
+            Sign up—it&apos;s free
+          </Link>
         </div>
       </section>
 
-      <script>
-        {`
-          let prevScrollY = window.scrollY;
-          window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('nav');
-            if (window.scrollY > prevScrollY) {
-              navbar.style.transform = 'translateY(-100%)';
-            } else {
-              navbar.style.transform = 'translateY(0)';
-            }
-            prevScrollY = window.scrollY;
-          });
-        `}
-      </script>
-
-      {/* Footer Section */}
-      <footer className="relative z-10 px-6 py-16 max-w-7xl mx-auto border-t border-white/10">
-        <div className="grid md:grid-cols-5 gap-8">
-          {/* Brand Column */}
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <Image
-                src={logoImage}
-                alt="Final Round"
-                width={32}
-                height={32}
-                className="object-contain"
-              />
-              <span className="text-xl font-semibold text-white">EchoHire</span>
-            </div>
-            <p className="text-white/60 mb-6">
-              Your trusted platform to ace any job interview. Find the perfect
-              resume, and land your dream job.
-            </p>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1">
-                <span className="w-2 h-2 bg-green-500 rounded-full" />
-                <span className="text-sm text-white/60">
-                  All services are online
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Company Links */}
-          <div>
-            <h3 className="font-semibold text-white mb-4">Company</h3>
-            <ul className="space-y-3">
-              {["About Us", "Contact Us", "PR & Media", "Careers", "FAQ"].map(
-                (item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="text-white/60 hover:text-white transition-colors"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                )
-              )}
-            </ul>
-          </div>
-
-          {/* Products Links */}
-          <div>
-            <h3 className="font-semibold text-white mb-4">Products</h3>
-            <ul className="space-y-3">
-              {[
-                "Interview Copilot",
-                "AI Mock Interview",
-                "AI Resume Builder",
-                "AI Auto Apply",
-                "Interview Questions",
-              ].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="text-white/60 hover:text-white transition-colors"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Support Links */}
-          <div>
-            <h3 className="font-semibold text-white mb-4">Support</h3>
-            <ul className="space-y-3">
-              {[
-                "Hirevue Interviews",
-                "Phone Interviews",
-                "College Admission Interviews",
-                "Coding Interview Job Sites",
-                "Speech Analysis",
-                "Q&A Pairs",
-              ].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="text-white/60 hover:text-white transition-colors"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+      {/* Placeholder for future sections */}
+      <section className="relative z-10 min-h-screen bg-gray-50/50">
+        <div className="max-w-6xl mx-auto px-4 py-20">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+            More sections coming soon...
+          </h2>
+          <p className="text-center text-gray-600">
+            This area is ready for your additional content sections.
+          </p>
         </div>
+      </section>
 
-        {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-white/10">
-          <div className="flex flex-wrap justify-between items-center gap-4">
-            <div className="flex items-center gap-4 text-sm text-white/60">
-              <a href="#" className="hover:text-white transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="hover:text-white transition-colors">
-                Terms & Conditions
-              </a>
-            </div>
-            <div className="flex items-center gap-4">
-              <a
-                href="#"
-                className="text-white/60 hover:text-white transition-colors"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-              </a>
-              <a
-                href="#"
-                className="text-white/60 hover:text-white transition-colors"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-                </svg>
-              </a>
-              <a
-                href="#"
-                className="text-white/60 hover:text-white transition-colors"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
-                </svg>
-              </a>
-              <a
-                href="#"
-                className="text-white/60 hover:text-white transition-colors"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.35.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" />
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
+      {/* Enhanced Gradient overlay for bottom fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-white via-white/90 to-transparent z-[2]"></div>
 
-        {/* Disclaimer */}
-      </footer>
-    </div>
+      {/* Additional lime green glow at bottom */}
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-32 bg-gradient-to-t from-lime-100/20 to-transparent z-[1]"></div>
+    </main>
   );
 }
