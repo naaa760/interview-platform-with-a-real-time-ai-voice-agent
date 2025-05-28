@@ -11,6 +11,10 @@ module.exports = {
         gradient: "gradient 3s ease infinite",
         float: "float 6s ease-in-out infinite",
         "float-delayed": "float 6s ease-in-out infinite 2s",
+        scroll: "scroll 20s linear infinite",
+        carousel: "carousel 25s linear infinite",
+        move: "move 25s linear infinite",
+        marquee: "marquee 25s linear infinite",
       },
       keyframes: {
         gradient: {
@@ -30,6 +34,22 @@ module.exports = {
           "50%": {
             transform: "translateY(-20px)",
           },
+        },
+        scroll: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+        carousel: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+        move: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-100%)" },
         },
       },
       colors: {

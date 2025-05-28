@@ -1,10 +1,161 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, JSX } from "react";
 import Link from "next/link";
+import Image from "next/image";
+
+type ServiceCard = {
+  icon: string;
+  title: string;
+  description: string;
+  trustedBy: string[];
+};
+
+type FeatureCard = {
+  title: string;
+  description: string;
+  icon: JSX.Element;
+};
+
+type FAQItem = {
+  question: string;
+  answer: string;
+};
+
+const serviceCards: ServiceCard[] = [
+  {
+    icon: "code",
+    title: "Software engineers",
+    description: "From full-stack to specialized roles",
+    trustedBy: ["Katalyze AI", "Tactable"],
+  },
+  {
+    icon: "factory",
+    title: "Factory workers",
+    description: "Production and assembly specialists",
+    trustedBy: ["First Brands Group", "Tenneco", "Dana Inc."],
+  },
+  {
+    icon: "car",
+    title: "Automotive service",
+    description: "Skilled mechanics and technicians",
+    trustedBy: ["CarMax", "Jiffy Lube"],
+  },
+  {
+    icon: "headset",
+    title: "Customer service",
+    description: "Call and support specialists",
+    trustedBy: ["Treantly", "Atento"],
+  },
+  {
+    icon: "chart",
+    title: "Sales staff",
+    description: "Revenue-driving professionals",
+    trustedBy: ["Hire Engine", "Cosnet Global"],
+  },
+  {
+    icon: "warehouse",
+    title: "Warehouse staff",
+    description: "Logistics and inventory experts",
+    trustedBy: ["XPO Logistics", "Sysco"],
+  },
+];
+
+const candidateFeatures: FeatureCard[] = [
+  {
+    title: "No Interview Fatigue",
+    description:
+      "A consistent and professional experience with unbiased treatment and evaluation.",
+    icon: (
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    ),
+  },
+  {
+    title: "Comprehensive Subject Coverage",
+    description: "AI covers past experiences, skills, availability and salary.",
+    icon: (
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+        />
+      </svg>
+    ),
+  },
+  {
+    title: "Dynamic and Personalized Conversations",
+    description:
+      "The AI adapts to drive insightful engagement with each candidate response.",
+    icon: (
+      <svg
+        className="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+        />
+      </svg>
+    ),
+  },
+];
+
+const faqItems: FAQItem[] = [
+  {
+    question: "What types of interviews can we conduct?",
+    answer:
+      "We support both one-way and two-way interviews. One-way interviews allow candidates to record responses to predefined questions, while two-way interviews enable real-time AI conversation with candidates.",
+  },
+  {
+    question: "How many interviews can be taken in the free trial?",
+    answer:
+      "The free trial includes up to 5 interview sessions, giving you a chance to experience our platform's capabilities before committing.",
+  },
+  {
+    question: "On which platforms can I use my interview link?",
+    answer:
+      "Our interview links are compatible with all major web browsers and can be accessed on desktop, tablet, and mobile devices. No special software installation required.",
+  },
+  {
+    question:
+      "What types of questions can be generated in a one-way interview?",
+    answer:
+      "Our AI can generate role-specific technical questions, behavioral questions, situational scenarios, and skill assessment questions tailored to the position.",
+  },
+  {
+    question: "Can we predefine questions in two-way interview?",
+    answer:
+      "Yes, you can set predefined questions while still maintaining the dynamic nature of the conversation. The AI will incorporate these questions naturally into the flow of the interview.",
+  },
+];
 
 export default function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
+  const [authDropdownOpen, setAuthDropdownOpen] = useState(false);
+  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +166,122 @@ export default function LandingPage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest(".relative")) {
+        setAuthDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const getIconSvg = (iconName: string) => {
+    const iconMap: { [key: string]: JSX.Element } = {
+      code: (
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+          />
+        </svg>
+      ),
+      factory: (
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+          />
+        </svg>
+      ),
+      car: (
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 21c0 1.1-0.9 2-2 2H7c-1.1 0-2-0.9-2-2M5 16.5c0-1.1 0.9-2 2-2h10c1.1 0 2 0.9 2 2M17 8l2 3h-3m-3-3h-2m-3 0H7l-2 3h14l-2-3z"
+          />
+        </svg>
+      ),
+      headset: (
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M3 18v-6a9 9 0 0118 0v6"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"
+          />
+        </svg>
+      ),
+      chart: (
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+          />
+        </svg>
+      ),
+      warehouse: (
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
+          />
+        </svg>
+      ),
+    };
+    return iconMap[iconName] || null;
+  };
 
   return (
     <main className="min-h-screen relative bg-white overflow-hidden">
@@ -37,16 +304,31 @@ export default function LandingPage() {
             transform: translateY(-15px);
           }
         }
+        @keyframes pulse {
+          0%,
+          100% {
+            transform: scaleY(1);
+          }
+          50% {
+            transform: scaleY(0.5);
+          }
+        }
         .animate-float {
           animation: float 6s ease-in-out infinite;
         }
         .animate-float-delayed {
           animation: float-delayed 8s ease-in-out infinite 2s;
         }
+        .animate-pulse {
+          animation: pulse 1s ease-in-out infinite;
+        }
       `}</style>
       {/* Grid Background Pattern */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0fff4_1px,transparent_1px),linear-gradient(to_bottom,#f0fff4_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
+
+        {/* Additional grid pattern for "Who we serve" section */}
+        <div className="absolute top-[100vh] left-0 right-0 h-[60vh] bg-[linear-gradient(to_right,#f0fff4_1px,transparent_1px),linear-gradient(to_bottom,#f0fff4_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-50 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_40%,transparent_100%)]" />
       </div>
 
       {/* Beautiful Organic SVG Shapes with Light Lime Green Gradients */}
@@ -340,7 +622,7 @@ export default function LandingPage() {
                 } rounded-xl shadow-lg`}
               ></div>
               <span className="ml-2 text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-                Ribbon
+                Echo
               </span>
             </Link>
 
@@ -365,16 +647,61 @@ export default function LandingPage() {
 
             {/* CTA Buttons */}
             <div className="flex items-center space-x-4">
-              <Link
-                href="/signup"
-                className={`px-4 py-2 font-medium transition-all duration-300 ${
-                  scrolled
-                    ? "text-gray-600 hover:text-pink-800"
-                    : "text-gray-800 hover:text-pink-800"
-                }`}
-              >
-                Sign up
-              </Link>
+              {/* Auth Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setAuthDropdownOpen(!authDropdownOpen)}
+                  className={`px-4 py-2 font-medium transition-all duration-300 flex items-center space-x-1 ${
+                    scrolled
+                      ? "text-gray-600 hover:text-pink-800"
+                      : "text-gray-800 hover:text-pink-800"
+                  }`}
+                >
+                  <span>Sign in</span>
+                  <svg
+                    className={`w-4 h-4 transition-transform duration-200 ${
+                      authDropdownOpen ? "transform rotate-180" : ""
+                    }`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+
+                {/* Dropdown Menu */}
+                {authDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50 border border-gray-100">
+                    <Link
+                      href="/sign-in"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-pink-800 transition-colors duration-200"
+                    >
+                      Sign in
+                    </Link>
+                    <Link
+                      href="/sign-up"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-pink-800 transition-colors duration-200"
+                    >
+                      Create account
+                    </Link>
+                    <div className="border-t border-gray-100 my-2"></div>
+                    <Link
+                      href="/sign-up"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-pink-800 transition-colors duration-200"
+                    >
+                      Forgot password?
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Book Demo Button */}
               <Link
                 href="/demo"
                 className={`px-5 py-2.5 font-medium text-white rounded-full transition-all duration-300 ${
@@ -401,7 +728,7 @@ export default function LandingPage() {
         <div className="inline-flex items-center bg-white/80 backdrop-blur-sm rounded-full px-6 py-2 mb-8 shadow-sm border border-gray-100/50">
           <div className="w-6 h-6 bg-gradient-to-tr from-pink-800 to-rose-400 rounded-lg shadow-sm"></div>
           <span className="mx-2 text-gray-700">
-            We raised $8M+ to fix hiring!
+            I have made this website use for free!
           </span>
           <svg
             className="w-4 h-4 text-gray-600"
@@ -451,23 +778,282 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Placeholder for future sections */}
-      <section className="relative z-10 min-h-screen bg-gray-50/50">
-        <div className="max-w-6xl mx-auto px-4 py-20">
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-            More sections coming soon...
-          </h2>
-          <p className="text-center text-gray-600">
-            This area is ready for your additional content sections.
-          </p>
+      {/* Add this section after the hero section */}
+      <section className="relative z-10 py-24 bg-gradient-to-b from-white/80 via-white/90 to-gray-50/95 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Section Header */}
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-gray-700 to-gray-800 bg-clip-text text-transparent">
+              Who we serve
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Tailored interview experiences for every role, powered by
+              industry-specific AI
+            </p>
+          </div>
+
+          {/* Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {serviceCards.map((card, index) => (
+              <div
+                key={index}
+                className="group relative bg-white rounded-2xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100"
+              >
+                {/* Card Header */}
+                <div className="flex items-center mb-6">
+                  <div className="p-3 rounded-xl bg-gradient-to-tr from-pink-800/10 to-rose-400/10 text-pink-800 group-hover:from-pink-800 group-hover:to-rose-400 group-hover:text-white transition-all duration-300">
+                    {getIconSvg(card.icon)}
+                  </div>
+                  <h3 className="text-xl font-semibold ml-4 text-gray-900">
+                    {card.title}
+                  </h3>
+                </div>
+
+                {/* Card Content */}
+                <p className="text-gray-600 mb-6">{card.description}</p>
+
+                {/* Trusted By Section */}
+                <div className="mt-auto">
+                  <p className="text-sm text-gray-500 mb-2">Trusted by:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {card.trustedBy.map((company, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-700"
+                      >
+                        {company}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Hover Effect Gradient Border */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-pink-800/0 to-rose-400/0 opacity-0 group-hover:opacity-10 transition-all duration-300" />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Enhanced Gradient overlay for bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-white via-white/90 to-transparent z-[2]"></div>
+      {/* Rich Candidate Experience Section */}
+      <section className="relative z-10 py-32 overflow-hidden">
+        {/* Grid Pattern Background */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0fff4_1px,transparent_1px),linear-gradient(to_bottom,#f0fff4_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
+        </div>
 
-      {/* Additional lime green glow at bottom */}
-      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full h-32 bg-gradient-to-t from-lime-100/20 to-transparent z-[1]"></div>
+        {/* Content wrapper */}
+        <div className="relative z-10">
+          <div className="max-w-7xl mx-auto px-4 relative">
+            {/* Section Header */}
+            <div className="text-center mb-20 relative">
+              <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-gray-700 to-gray-800 bg-clip-text text-transparent">
+                Rich Candidate Experience
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Through conversational, empathetic & adaptive AI
+              </p>
+            </div>
+
+            {/* Features Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+              {candidateFeatures.map((feature, index) => (
+                <div
+                  key={index}
+                  className="group relative bg-white/80 backdrop-blur-sm rounded-2xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100"
+                >
+                  {/* Feature Icon */}
+                  <div className="mb-6">
+                    <div className="inline-flex p-3 rounded-xl bg-gradient-to-tr from-pink-800/10 to-rose-400/10 text-pink-800 group-hover:from-pink-800 group-hover:to-rose-400 group-hover:text-white transition-all duration-300">
+                      {feature.icon}
+                    </div>
+                  </div>
+
+                  {/* Feature Content */}
+                  <h3 className="text-xl font-semibold mb-4 text-gray-900">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600">{feature.description}</p>
+
+                  {/* Hover Effect Gradient Border */}
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-pink-800/0 to-rose-400/0 opacity-0 group-hover:opacity-10 transition-all duration-300" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Third Section with Image */}
+      <section className="relative z-10 py-32 overflow-hidden">
+        {/* Grid Pattern Background */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0fff4_1px,transparent_1px),linear-gradient(to_bottom,#f0fff4_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
+        </div>
+
+        <div className="relative z-10">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              {/* Content */}
+              <div>
+                <span className="inline-block px-4 py-1.5 mb-6 text-sm font-medium bg-gradient-to-r from-pink-800/10 to-rose-400/10 text-pink-800 rounded-full">
+                  Seamless Experience
+                </span>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-gray-700 to-gray-800 bg-clip-text text-transparent">
+                  Transform Your Hiring Process
+                </h2>
+                <p className="text-xl text-gray-600 mb-8">
+                  Streamline your recruitment with AI-powered interviews that
+                  save time and improve candidate experience.
+                </p>
+
+                {/* Feature List */}
+                <div className="space-y-4">
+                  {[
+                    "Automated scheduling and coordination",
+                    "Real-time candidate evaluation",
+                    "Customizable interview templates",
+                    "Detailed analytics and insights",
+                  ].map((feature, index) => (
+                    <div key={index} className="flex items-center space-x-3">
+                      <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-r from-pink-800 to-rose-400 flex items-center justify-center">
+                        <svg
+                          className="w-3 h-3 text-white"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      </div>
+                      <span className="text-gray-700">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Image Container */}
+              <div className="relative lg:ml-auto">
+                {/* Decorative elements */}
+                <div className="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-tr from-pink-800/10 to-rose-400/10 rounded-full blur-3xl" />
+                <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-tr from-pink-800/10 to-rose-400/10 rounded-full blur-3xl" />
+
+                {/* Image */}
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl transform hover:scale-[1.02] transition-transform duration-300">
+                  <div className="absolute inset-0 bg-gradient-to-r from-pink-800/5 to-rose-400/5 backdrop-blur-sm" />
+                  <div className="aspect-[4/3] relative">
+                    <Image
+                      src="/u.png"
+                      alt="Transform hiring process visualization"
+                      fill
+                      className="object-cover rounded-3xl"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                      priority
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom decorative accent */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-pink-800/20 to-transparent" />
+      </section>
+
+      {/* FAQ Section */}
+      <section className="relative z-10 py-32 overflow-hidden">
+        {/* Grid Pattern Background */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0fff4_1px,transparent_1px),linear-gradient(to_bottom,#f0fff4_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
+        </div>
+
+        {/* Decorative blobs */}
+        <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[600px] h-[600px] opacity-20">
+          <div className="absolute inset-0 bg-gradient-to-br from-pink-800/30 to-rose-400/30 rounded-full blur-3xl animate-float" />
+        </div>
+        <div className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-[600px] h-[600px] opacity-20">
+          <div className="absolute inset-0 bg-gradient-to-tr from-pink-800/30 to-rose-400/30 rounded-full blur-3xl animate-float-delayed" />
+        </div>
+
+        <div className="relative z-10">
+          <div className="max-w-7xl mx-auto px-4">
+            {/* Section Header */}
+            <div className="text-center mb-20 relative">
+              <span className="inline-block px-4 py-1.5 mb-6 text-sm font-medium bg-gradient-to-r from-pink-800/10 to-rose-400/10 text-pink-800 rounded-full">
+                Got questions?
+              </span>
+              <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-gray-700 to-gray-800 bg-clip-text text-transparent">
+                Frequently Asked Questions
+              </h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Everything you need to know about our AI interview platform
+              </p>
+            </div>
+
+            {/* FAQ List */}
+            <div className="max-w-3xl mx-auto">
+              {faqItems.map((item, index) => (
+                <div
+                  key={index}
+                  className="mb-4 rounded-2xl bg-white/80 backdrop-blur-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-lg group"
+                >
+                  <button
+                    onClick={() =>
+                      setExpandedFAQ(expandedFAQ === index ? null : index)
+                    }
+                    className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-gradient-to-r hover:from-pink-800/5 hover:to-rose-400/5 transition-all duration-300"
+                  >
+                    <span className="text-lg font-medium text-gray-900 group-hover:text-pink-800">
+                      {item.question}
+                    </span>
+                    <span className="ml-6 flex-shrink-0">
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center bg-gradient-to-r from-pink-800/10 to-rose-400/10 transition-all duration-300 group-hover:from-pink-800 group-hover:to-rose-400`}
+                      >
+                        <svg
+                          className={`w-4 h-4 transform transition-transform duration-300 ${
+                            expandedFAQ === index
+                              ? "rotate-45 text-white"
+                              : "text-pink-800"
+                          } group-hover:text-white`}
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 4v16m8-8H4"
+                          />
+                        </svg>
+                      </div>
+                    </span>
+                  </button>
+                  <div
+                    className={`transition-all duration-300 ease-in-out ${
+                      expandedFAQ === index
+                        ? "max-h-48 opacity-100"
+                        : "max-h-0 opacity-0"
+                    } overflow-hidden bg-gradient-to-r from-pink-800/5 to-rose-400/5`}
+                  >
+                    <div className="px-6 py-5 text-gray-600">{item.answer}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom decorative accent */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-pink-800/20 to-transparent" />
+      </section>
     </main>
   );
 }
